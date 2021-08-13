@@ -1,0 +1,33 @@
+version: '3.7'
+services: 
+  webng:
+    image: localhost:5000/ep_nginx
+    mem_limit: 64m
+    mem_reservation: 32m
+    cpus: 0.5
+    ports:
+      - "8000:80"
+    volumes:
+      - ./volume:/usr/share/nginx/html
+    networks: 
+      - ngn_ntwrk
+
+  webap:
+    image: localhost:5000/ep_apache
+    mem_limit: 64m
+    mem_reservation: 32m
+    cpus: 0.5
+    ports:
+      - "9000:80"
+    volumes: 
+      - ./volume:/usr/local/apache2/htdocs/
+    networks: 
+      - apa_ntwrk
+
+networks:
+  apa_ntwrk:
+    name: apa_bridge
+    driver: bridge
+  ngn_ntwrk:
+    name: ngn_bridge
+    driver: bridge
